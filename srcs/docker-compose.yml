@@ -1,0 +1,68 @@
+version: "3"  # 📌 Version de la syntaxe docker-compose utilisée
+
+services:
+  # 🔹 Service MariaDB
+  mariadb:
+    build:                      # 🔨 Indique comment construire l'image
+      context: ./requirements/mariadb  # 📁 Chemin vers le dossier contenant le Dockerfile
+      dockerfile: Dockerfile          # 📄 Nom du Dockerfile
+    container_name: mariadb     # 🧱 Nom personnalisé du conteneur
+    env_file: .env              # 📦 Variables d'environnement à charger
+    volumes:                    # 💾 Volume persistant pour les données MariaDB
+      - mariadb_data:/var/lib/mysql
+    networks:                   # 🌐 Réseau Docker (pour que les services puissent se voir)
+      - inception
+    restart: unless-stopped     # 🔁 Redémarre sauf si on l'arrête manuellement
+
+  # 🔹 Service WordPress (avec PHP-FPM)
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    env_file: .env
+    volumes:
+      - wordpress_data:/var/www/html  # 📁 Dossier partagé contenant les fichiers WP
+    networks:
+      - inception
+    depends_on:
+      - mariadb               # ⏳ Lance WordPress uniquement si MariaDB est prêt
+    restart: unless-stopped
+
+  # 🔹 Service NGINX
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    env_file: .env
+    ports:
+      - "443:443"             # 🌍 Port HTTPS exposé localement
+    volumes:
+      - wordpress_data:/var/www/html  # 📁 Partage les fichiers WordPress avec NGINX
+    networks:
+      - inception
+    depends_on:
+      - wordpress             # ⏳ NGINX attend que WordPress soit prêt
+    restart: unless-stopped
+
+# 🔸 Définition des volumes persistants
+volumes:
+  mariadb_data:
+    driver: local             # 🛠️ Utilise un volume local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${SQL_DATA_PATH}   # 📍 Point de montage sur l’hôte
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WP_DATA_PATH}      # 📍 Dossier de persistance WordPress
+
+# 🔸 Réseau personnalisé pour que les containers puissent communiquer
+networks:
+  inception:
+    driver: bridge            # 🧭 Réseau bridge : tous les conteneurs partagent un réseau isolé
