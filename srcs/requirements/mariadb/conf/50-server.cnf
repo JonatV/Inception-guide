@@ -1,9 +1,11 @@
 [server]               # Section générique (souvent utilisée pour appliquer des options globales)
-
 [mysqld]               # Section principale pour le serveur MariaDB
 
 # Exécuter MariaDB sous l’utilisateur mysql pour des raisons de sécurité
 user = mysql
+
+# Port par défaut pour les connexions MySQL (peut être modifié si nécessaire)
+# port = 3306
 
 # Fichier contenant le PID (identifiant de processus)
 pid-file = /run/mysqld/mysqld.pid

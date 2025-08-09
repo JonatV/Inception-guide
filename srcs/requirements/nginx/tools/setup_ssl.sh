@@ -1,6 +1,11 @@
 #!/bin/bash
 echo -e "\e[34mSetting up NGINX SSL certificates...\e[0m"
 
+if [ -z "$DOMAIN_NAME" ]; then
+	echo -e "\e[31m--> Missing required environment variable: DOMAIN_NAME.\e[0m"
+	exit 1
+fi
+
 mkdir -p /etc/nginx/ssl
 
 if [ ! -f /etc/nginx/ssl/nginx.crt ]; then

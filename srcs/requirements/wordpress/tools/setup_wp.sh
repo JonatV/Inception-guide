@@ -2,7 +2,22 @@
 
 echo -e "\e[34mSetting up WordPress...\e[0m"
 
+if [ -z "$SQL_DATABASE" ] || \
+	[ -z "$SQL_USER" ] || \
+	[ -z "$SQL_PASSWORD" ] || \
+	[ -z "$DOMAIN_NAME" ] || \
+	[ -z "$WP_ADMIN_USER" ] || \
+	[ -z "$WP_ADMIN_PASSWORD" ] || \
+	[ -z "$WP_ADMIN_EMAIL" ] || \
+	[ -z "$WP_USER" ] || \
+	[ -z "$WP_USER_EMAIL" ] || \
+	[ -z "$WP_USER_PASSWORD" ]; then
+	echo -e "\e[31m--> Missing required environment variables.\e[0m"
+	exit 1
+fi
+
 echo -e "\e[34m--> Establishing connection with the database...\e[0m"
+
 sleep 10
 
 MAX_RETRIES=30
@@ -22,7 +37,7 @@ if [ $COUNT -eq $MAX_RETRIES ]; then
 	exit 1
 fi
 
-if [ ! -f /var/www/html/wordpress/wp-config.php ]; then
+if [ ! -f /var/www/html/wp-config.php ]; then
 	echo -e "\e[34m--> Downloading WordPress...\e[0m"
 	wp core download --version=6.0 --locale=fr_FR --allow-root
 	echo -e "\e[32m--> WordPress downloaded successfully\e[0m"
@@ -37,7 +52,7 @@ if [ ! -f /var/www/html/wordpress/wp-config.php ]; then
 	echo -e "\e[34m--> Installing WordPress...\e[0m"
 	wp core install --allow-root \
 		--url="${DOMAIN_NAME}" \
-		--title="Inception WordPress Site" \
+		--title="Inception42" \
 		--admin_user="${WP_ADMIN_USER}" \
 		--admin_password="${WP_ADMIN_PASSWORD}" \
 		--admin_email="${WP_ADMIN_EMAIL}" \

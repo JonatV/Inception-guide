@@ -2,6 +2,11 @@
 
 echo -e "\e[34mSetting up mariaDB...\e[0m"
 
+if [ -z "$SQL_ROOT_PASSWORD" ] || [ -z "$SQL_DATABASE" ] || [ -z "$SQL_USER" ] || [ -z "$SQL_PASSWORD" ]; then
+	echo -e "\e[31m--> Missing required environment variables.\e[0m"
+	exit 1
+fi
+
 service mariadb start
 
 echo -e "\e[34m--> Establishing connection with the database...\e[0m"
@@ -24,13 +29,14 @@ fi
 
 echo -e "\e[34m--> setting up DB and user...\e[0m"
 
-# Use socket authentication or skip grant tables for initial setup / to do
 mysql -u root << EOF
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
 
 echo -e "\e[32m--> Root user password updated successfully.\e[0m"
+
+sleep 1
 
 mysql -u root -p"${SQL_ROOT_PASSWORD}" << EOF
 CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
@@ -42,6 +48,9 @@ EOF
 echo -e "\e[32m--> DB and user creation successful.\e[0m"
 
 echo -e "\e[32m--> Starting MariaDB in foreground...\e[0m"
+
 mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
 sleep 2
+
 exec mysqld_safe

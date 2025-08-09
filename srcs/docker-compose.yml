@@ -49,7 +49,7 @@ services:
 # 🔸 Définition des volumes persistants
 volumes:
   mariadb_data:
-    driver: local             # 🛠️ Utilise un volume local
+    driver: local             # 🛠️ Stocke les données localement
     driver_opts:
       type: none
       o: bind
