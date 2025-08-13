@@ -43,8 +43,24 @@ services:
     networks:
       - inception
     depends_on:
+      - adminer              # ⏳ NGINX attend que Adminer soit prêt
       - wordpress             # ⏳ NGINX attend que WordPress soit prêt
     restart: unless-stopped
+  
+  # Service ADMINER
+  adminer:
+    build:
+      context: ./requirements/adminer
+      dockerfile: Dockerfile
+    env_file: .env
+    container_name: adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"         # 🌍 Port Adminer exposé localement
+    networks:
+      - inception
+    depends_on:
+      - mariadb            # ⏳ Adminer attend que MariaDB soit prêt
 
   # Service Redis
   redis:
