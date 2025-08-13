@@ -46,7 +46,16 @@ services:
       - wordpress             # ⏳ NGINX attend que WordPress soit prêt
     restart: unless-stopped
 
-# 🔸 Définition des volumes persistants
+  # Service Redis
+  redis:
+    build:
+      context: ./requirements/redis
+      dockerfile: Dockerfile
+    container_name: redis
+    env_file: .env
+    networks:
+      - inception
+    restart: unless-stopped
 volumes:
   mariadb_data:
     driver: local             # 🛠️ Stocke les données localement
