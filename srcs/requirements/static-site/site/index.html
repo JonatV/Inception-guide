@@ -23,7 +23,14 @@
                 </div>
                 <div class="status-indicator">
                     <div class="status-dot active"></div>
-                    <span class="status-text">All Services Running</span>
+                    <span class="status-text">0/6 Services Running</span>
+                    <button id="refresh-btn" class="service-btn primary" title="Refresh service status">
+                        <span class="refresh-icon">🔄</span>
+                        <span class="refresh-text">Refresh</span>
+                    </button>
+                    <button id="theme-toggle" class="theme-toggle" title="Toggle dark theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
                 </div>
             </div>
         </header>
@@ -72,7 +79,7 @@
                     <div class="service-card core-service">
                         <div class="service-header">
                             <div class="service-icon nginx">🌐</div>
-                            <div class="service-status running"></div>
+                            <div id="nginx-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">NGINX</h3>
@@ -92,7 +99,7 @@
                     <div class="service-card core-service">
                         <div class="service-header">
                             <div class="service-icon wordpress">📝</div>
-                            <div class="service-status running"></div>
+                            <div id="wordpress-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">WordPress</h3>
@@ -112,7 +119,7 @@
                     <div class="service-card core-service">
                         <div class="service-header">
                             <div class="service-icon mariadb">🗄️</div>
-                            <div class="service-status running"></div>
+                            <div id="mariadb-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">MariaDB</h3>
@@ -131,7 +138,7 @@
                     <div class="service-card bonus-service">
                         <div class="service-header">
                             <div class="service-icon adminer">🔍</div>
-                            <div class="service-status running"></div>
+                            <div id="adminer-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">Adminer</h3>
@@ -151,7 +158,7 @@
                     <div class="service-card bonus-service">
                         <div class="service-header">
                             <div class="service-icon redis">⚡</div>
-                            <div class="service-status running"></div>
+                            <div id="redis-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">Redis</h3>
@@ -169,7 +176,7 @@
                     <div class="service-card bonus-service">
                         <div class="service-header">
                             <div class="service-icon redis-commander">📊</div>
-                            <div class="service-status running"></div>
+                            <div id="redis-commander-status" class="service-status stopped"></div>
                         </div>
                         <div class="service-info">
                             <h3 class="service-name">Redis Commander</h3>
@@ -190,315 +197,81 @@
                 </div>
             </section>
 
-            <!-- Network Visualization -->
-            <section class="network-section">
-                <h2 class="section-title">Container Network Architecture</h2>
-                <div class="network-diagram">
-                    <div class="architecture-overview">
-                        <div class="architecture-description">
-                            <h3>Docker Network Flow</h3>
-                            <p>Visual representation of how containers communicate within the Inception infrastructure</p>
-                        </div>
+            <!-- Technical Architecture -->
+            <section class="technical-section">
+                <h2 class="section-title">Technical Architecture Documentation</h2>
+                
+                <!-- Network Architecture -->
+                <div class="architecture-card">
+                    <div class="architecture-header">
+                        <h3>🌐 Network Architecture</h3>
+                        <div class="architecture-badge">Docker Network</div>
                     </div>
-
-                    <!-- Network Flow Diagram -->
-                    <div class="network-flow">
-                        <!-- Internet/Client Layer -->
-                        <div class="flow-row">
-                            <div class="flow-section">
-                                <div class="section-header">
-                                    <h4>🌍 External Traffic</h4>
-                                </div>
-                                <div class="container-group">
-                                    <div class="network-container client">
-                                        <div class="container-icon">💻</div>
-                                        <div class="container-info">
-                                            <div class="container-name">Client Browser</div>
-                                            <div class="container-desc">HTTPS Requests</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div class="flow-arrow down">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">↓</div>
-                            <div class="arrow-label">Port 443 (HTTPS)</div>
-                        </div>
-
-                        <!-- Reverse Proxy Layer -->
-                        <div class="flow-row">
-                            <div class="flow-section primary">
-                                <div class="section-header">
-                                    <h4>🌐 Reverse Proxy</h4>
-                                </div>
-                                <div class="container-group">
-                                    <div class="network-container nginx">
-                                        <div class="container-icon">🌐</div>
-                                        <div class="container-info">
-                                            <div class="container-name">NGINX</div>
-                                            <div class="container-desc">SSL Termination & Load Balancing</div>
-                                            <div class="container-ports">Ports: 80, 443</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Arrow Down -->
-                        <div class="flow-arrow down">
-                            <div class="arrow-line"></div>
-                            <div class="arrow-head">↓</div>
-                            <div class="arrow-label">FastCGI Protocol</div>
-                        </div>
-
-                        <!-- Application Layer -->
-                        <div class="flow-row">
-                            <div class="flow-section primary">
-                                <div class="section-header">
-                                    <h4>📝 Application Layer</h4>
-                                </div>
-                                <div class="container-group">
-                                    <div class="network-container wordpress">
-                                        <div class="container-icon">📝</div>
-                                        <div class="container-info">
-                                            <div class="container-name">WordPress</div>
-                                            <div class="container-desc">PHP-FPM Application Server</div>
-                                            <div class="container-ports">Port: 9000</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Arrows to Data Layer -->
-                        <div class="flow-arrows-split">
-                            <div class="flow-arrow left">
-                                <div class="arrow-line-diagonal"></div>
-                                <div class="arrow-head">↙</div>
-                                <div class="arrow-label">Database Queries</div>
-                            </div>
-                            <div class="flow-arrow right">
-                                <div class="arrow-line-diagonal"></div>
-                                <div class="arrow-head">↘</div>
-                                <div class="arrow-label">Session & Cache</div>
-                            </div>
-                        </div>
-
-                        <!-- Data Layer -->
-                        <div class="flow-row">
-                            <div class="flow-section primary split">
-                                <div class="section-header">
-                                    <h4>🗄️ Data Layer</h4>
-                                </div>
-                                <div class="container-group split">
-                                    <div class="network-container mariadb">
-                                        <div class="container-icon">🗄️</div>
-                                        <div class="container-info">
-                                            <div class="container-name">MariaDB</div>
-                                            <div class="container-desc">MySQL Database</div>
-                                            <div class="container-ports">Port: 3306</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                    <div class="network-container redis">
-                                        <div class="container-icon">⚡</div>
-                                        <div class="container-info">
-                                            <div class="container-name">Redis</div>
-                                            <div class="container-desc">In-Memory Cache</div>
-                                            <div class="container-ports">Port: 6379</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Management Layer -->
-                        <div class="flow-row management">
-                            <div class="flow-section secondary">
-                                <div class="section-header">
-                                    <h4>🛠️ Management & Monitoring</h4>
-                                    <div class="section-badge">Bonus Services</div>
-                                </div>
-                                <div class="container-group">
-                                    <div class="network-container adminer">
-                                        <div class="container-icon">🔍</div>
-                                        <div class="container-info">
-                                            <div class="container-name">Adminer</div>
-                                            <div class="container-desc">Database Admin Interface</div>
-                                            <div class="container-ports">Port: 8080</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                    <div class="network-container redis-commander">
-                                        <div class="container-icon">📊</div>
-                                        <div class="container-info">
-                                            <div class="container-name">Redis Commander</div>
-                                            <div class="container-desc">Redis Monitoring Tool</div>
-                                            <div class="container-ports">Port: 8082</div>
-                                        </div>
-                                        <div class="container-status running"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="ascii-diagram">
+                        <pre class="ascii-art">
+┌─────────────────────────────────────────────────────────┐
+│                Docker Network: inception                │
+│                     (bridge driver)                     │
+│                                                         │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐  │
+│  │    NGINX    │    │ WordPress   │    │   MariaDB   │  │
+│  │    :443     │◄──►│ PHP-FPM:9000│◄──►│    :3306    │  │
+│  │             │    │             │    │             │  │
+│  └─────────────┘    └─────────────┘    └─────────────┘  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+         │
+         ▼ Port 443 exposed to host
+    ┌─────────────┐
+    │  Host OS    │
+    │ localhost   │
+    └─────────────┘</pre>
                     </div>
+                    <div class="architecture-description">
+                        <p>Internal Docker network configuration showing container communication patterns and host port exposure.</p>
+                    </div>
+                </div>
 
-                    <!-- Network Information Panel -->
-                    <div class="network-info">
-                        <div class="info-panel">
-                            <h4>📋 Network Details</h4>
-                            <div class="network-stats">
-                                <div class="network-stat">
-                                    <span class="stat-label">Docker Network:</span>
-                                    <span class="stat-value">inception</span>
-                                </div>
-                                <div class="network-stat">
-                                    <span class="stat-label">Internal Communication:</span>
-                                    <span class="stat-value">Container Names</span>
-                                </div>
-                                <div class="network-stat">
-                                    <span class="stat-label">External Ports:</span>
-                                    <span class="stat-value">443, 8080, 8082</span>
-                                </div>
-                                <div class="network-stat">
-                                    <span class="stat-label">SSL/TLS:</span>
-                                    <span class="stat-value">Self-signed Certificate</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-panel">
-                            <h4>🔄 Data Flow</h4>
-                            <div class="flow-description">
-                                <div class="flow-step">
-                                    <span class="step-number">1</span>
-                                    <span class="step-text">Client requests reach NGINX on port 443</span>
-                                </div>
-                                <div class="flow-step">
-                                    <span class="step-number">2</span>
-                                    <span class="step-text">NGINX forwards to WordPress via FastCGI</span>
-                                </div>
-                                <div class="flow-step">
-                                    <span class="step-number">3</span>
-                                    <span class="step-text">WordPress queries MariaDB for content</span>
-                                </div>
-                                <div class="flow-step">
-                                    <span class="step-number">4</span>
-                                    <span class="step-text">Redis caches sessions and objects</span>
-                                </div>
-                            </div>
+                <!-- Volume Architecture -->
+                <div class="architecture-card">
+                    <div class="architecture-header">
+                        <h3>💾 Volume Architecture</h3>
+                        <div class="architecture-badge">Data Persistence</div>
+                    </div>
+                    <div class="ascii-diagram">
+                        <pre class="ascii-art">
+      ┌───────────────────────── Machine hôte ─────────────────────────┐
+      │                                                                │
+      │  /home/&lt;login&gt;/data/                                           │
+      │  ├── mysql/                                                    │
+      │  └── wordpress/                                                │
+      │                                                                │
+      └────────────────────────────────────────────────────────────────┘
+                                   │                                    
+                                   │ (Volumes montés en mode bind)     
+                                   ▼                                   
+      ┌─────────────────────Conteneurs Docker ─────────────────────────┐
+      │                                                                │
+      │ [mariadb]     /var/lib/mysql    ←  données DB persistantes     │
+      │                                                                │
+      │ [wordpress]   /var/www/html     ←  fichiers WP persistants     │
+      │ [nginx]       /var/www/html     ←  sert les mêmes fichiers WP  │
+      │                                                                │
+      └────────────────────────────────────────────────────────────────┘</pre>
+                    </div>
+                    <div class="volume-mapping">
+                        <h4>📋 Volume Bindings</h4>
+                        <div class="ascii-diagram">
+                            <pre class="ascii-art">
+      ┌────── hôte ───────┐    ┌── Conteneurs ──┐      
+      │.../data/mysql       ←→   /var/lib/mysql │
+      │                   │    │                │
+      │.../data/wordpress   ←→   /var/www/html  │
+      └───────────────────┘    └────────────────┘</pre>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Project Info -->
-            <section class="project-section">
-                <h2 class="section-title">About This Project</h2>
-                <div class="project-content">
-                    <div class="project-description">
-                        <div class="project-header">
-                            <h3>42 School Inception Project</h3>
-                            <div class="project-badge">Docker Infrastructure</div>
-                        </div>
-                        <p class="project-intro">
-                            This project demonstrates the setup of a complete web infrastructure using Docker containers.
-                            The entire stack is containerized and orchestrated using Docker Compose, featuring secure 
-                            communication, persistent storage, and comprehensive monitoring capabilities.
-                        </p>
-                        
-                        <div class="features-grid">
-                            <div class="feature-item">
-                                <div class="feature-icon">🔐</div>
-                                <div class="feature-content">
-                                    <h4>SSL/TLS Security</h4>
-                                    <p>End-to-end encryption for all web services</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">💾</div>
-                                <div class="feature-content">
-                                    <h4>Persistent Storage</h4>
-                                    <p>Docker volumes for data persistence</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">🔄</div>
-                                <div class="feature-content">
-                                    <h4>Redis Caching</h4>
-                                    <p>Improved performance with caching layer</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">🛠️</div>
-                                <div class="feature-content">
-                                    <h4>Management Tools</h4>
-                                    <p>Complete monitoring and administration</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-details">
-                        <div class="tech-section">
-                            <h4>Core Technologies</h4>
-                            <div class="tech-stack">
-                                <span class="tech-tag core">Docker</span>
-                                <span class="tech-tag core">NGINX</span>
-                                <span class="tech-tag core">WordPress</span>
-                                <span class="tech-tag core">MariaDB</span>
-                            </div>
-                        </div>
-                        
-                        <div class="tech-section">
-                            <h4>Bonus Services</h4>
-                            <div class="tech-stack">
-                                <span class="tech-tag bonus">Redis</span>
-                                <span class="tech-tag bonus">Adminer</span>
-                                <span class="tech-tag bonus">Redis Commander</span>
-                            </div>
-                        </div>
-                        
-                        <div class="project-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">6</span>
-                                <span class="stat-desc">Containers</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">3</span>
-                                <span class="stat-desc">Volumes</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">1</span>
-                                <span class="stat-desc">Network</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="dashboard-footer">
-            <div class="footer-content">
-                <div class="student-info">
-                    <span class="student-name">jveirman</span>
-                    <span class="school">42 School</span>
-                </div>
-                <div class="project-links">
-                    <a href="mailto:jveirman@student.42.fr" class="footer-link">📧 Contact</a>
-                    <span class="footer-link">🔗 Inception Project</span>
-                </div>
-            </div>
-        </footer>
-    </div>
-
+			</section>
     <script src="script.js"></script>
 </body>
 </html>

@@ -4,48 +4,55 @@ class InceptionDashboard {
         this.services = [
             {
                 name: 'NGINX',
-                status: 'running',
+				ID: 'nginx',
+                status: 'stopped',
                 url: 'https://jveirman.42.fr',
                 internal: false
             },
             {
                 name: 'WordPress',
-                status: 'running',
+                ID: 'wordpress',
+                status: 'stopped',
                 url: 'https://jveirman.42.fr/wp-admin',
                 internal: false
             },
             {
                 name: 'MariaDB',
-                status: 'running',
+                ID: 'mariadb',
+                status: 'stopped',
                 url: null,
                 internal: true
             },
             {
                 name: 'Adminer',
-                status: 'running',
+                ID: 'adminer',
+                status: 'stopped',
                 url: 'http://jveirman.42.fr:8080',
                 internal: false
             },
             {
                 name: 'Redis',
-                status: 'running',
+				ID: 'redis',
+                status: 'stopped',
                 url: null,
                 internal: true
             },
             {
                 name: 'Redis Commander',
-                status: 'running',
+                ID: 'redis-commander',
+                status: 'stopped',
                 url: 'http://jveirman.42.fr:8082',
                 internal: false
             }
         ];
         
         this.init();
-    }
+	}
 
     init() {
         this.animateOnLoad();
-        this.setupServiceHealth();
+        this.setupThemeToggle();
+        this.loadSavedTheme();
         this.setupInteractiveFeatures();
         this.displayWelcomeMessage();
     }
@@ -65,31 +72,124 @@ class InceptionDashboard {
         });
     }
 
-    setupServiceHealth() {
-        // Simulate service health checks
-        const statusDots = document.querySelectorAll('.service-status');
-        
-        // Random status updates (for demo purposes)
-        setInterval(() => {
-            this.updateServiceStatus();
-        }, 30000); // Update every 30 seconds
-    }
-
-    updateServiceStatus() {
-        // In a real implementation, this would check actual service health
-        const runningServices = this.services.filter(s => s.status === 'running').length;
-        const totalServices = this.services.length;
-        
-        // Update main status indicator
-        const statusText = document.querySelector('.status-text');
-        if (statusText) {
-            statusText.textContent = `${runningServices}/${totalServices} Services Running`;
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
         }
-
-        console.log('🔍 Service health check completed');
     }
+
+    loadSavedTheme() {
+        const savedTheme = localStorage.getItem('dashboard-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            this.updateThemeIcon(savedTheme);
+        }
+    }
+
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('dashboard-theme', newTheme);
+        
+        this.updateThemeIcon(newTheme);
+        this.showNotification(
+            newTheme === 'dark' ? '🌙 Ultra Dark theme activated!' : '🌞 Default theme activated!', 
+            'success'
+        );
+    }
+
+    updateThemeIcon(theme) {
+        const themeIcon = document.querySelector('.theme-icon');
+        if (themeIcon) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+    }
+
+	updateServicesDisplay() {
+		let countRunning = 0;
+		this.services.forEach(service => {
+			console.log(`Checking service: ${service.name}`);
+			console.log(`Current status: ${service.status}`);
+			if (service.status === 'running') {
+				countRunning++;
+			}
+			if (service.status === 'stopped') {
+				console.warn(`Service ${service.name} is stopped!`);
+			}
+			// get status dot element by ID
+			const statusDot = document.querySelector(`#${service.ID}-status`);
+			// Update the status dot class based on service status
+			if (!statusDot) {
+				console.warn(`Status dot for ${service.name} not found!`);
+				return;
+			}
+			// Toggle classes based on service status
+			statusDot.classList.remove('running', 'stopped');
+			statusDot.classList.add(service.status);
+		});
+		// Update the displayed counts for : <span class="status-text">6/6 Services Running</span>
+		const statusText = document.querySelector('.status-text');
+		if (statusText) {
+			statusText.textContent = `${countRunning}/${this.services.length} Services Running`;
+		}
+	}
+
+	async checkServiceHealth(service) {
+		if (service.internal) return 'running';
+		if (!service.url) return 'stopped';
+
+		try {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 seconds timeout
+
+			const response = await fetch(service.url, {
+				method: 'GET',
+				signal: controller.signal,
+				mode: 'no-cors'
+			});
+			clearTimeout(timeoutId);
+			return 'running';
+		} catch (error) {
+			return 'stopped';
+		}
+	}
+
+	async updateServiceStatus() {
+		for (let service of this.services) {
+			const newStatus = await this.checkServiceHealth(service);
+			service.status = newStatus;
+		}
+		this.updateServicesDisplay();
+		console.log('🔍 Service health check completed');
+	}
 
     setupInteractiveFeatures() {
+        // Add refresh button functionality
+        const refreshBtn = document.getElementById('refresh-btn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', async () => {
+                // Add loading state
+                refreshBtn.classList.add('loading');
+                refreshBtn.disabled = true;
+                
+                this.showNotification('Refreshing service status...', 'info');
+                
+                // Run the update
+                await this.updateServiceStatus();
+                
+                // Remove loading state
+                refreshBtn.classList.remove('loading');
+                refreshBtn.disabled = false;
+                
+                this.showNotification('Service status updated!', 'success');
+            });
+        }
+
         // Add click handlers for service cards
         const serviceCards = document.querySelectorAll('.service-card');
         serviceCards.forEach(card => {
@@ -253,35 +353,7 @@ Right-click any service button to copy its URL!
     }
 }
 
-// Service health monitoring
-class ServiceMonitor {
-    constructor(dashboard) {
-        this.dashboard = dashboard;
-        this.checkInterval = 60000; // 1 minute
-    }
 
-    start() {
-        this.healthCheck();
-        setInterval(() => this.healthCheck(), this.checkInterval);
-    }
-
-    async healthCheck() {
-        // In a real implementation, this would ping actual services
-        console.log('🔍 Performing health check...');
-        
-        // Simulate some random service status changes for demo
-        const statusDots = document.querySelectorAll('.service-status.running');
-        statusDots.forEach(dot => {
-            // Small chance of showing a brief "checking" state
-            if (Math.random() < 0.1) {
-                dot.style.background = '#f59e0b'; // warning color
-                setTimeout(() => {
-                    dot.style.background = '#10b981'; // back to green
-                }, 1000);
-            }
-        });
-    }
-}
 
 // Keyboard shortcuts
 class KeyboardShortcuts {
@@ -339,11 +411,7 @@ Keyboard Shortcuts:
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     const dashboard = new InceptionDashboard();
-    const monitor = new ServiceMonitor(dashboard);
     const shortcuts = new KeyboardShortcuts(dashboard);
-
-    // Start monitoring
-    monitor.start();
 
     // Add some interactive demo features
     console.log('🚀 Inception Dashboard initialized successfully!');

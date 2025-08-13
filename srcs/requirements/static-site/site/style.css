@@ -16,6 +16,22 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+/* Ultra Dark Theme */
+[data-theme="dark"] {
+    --primary-bg: #000000;
+    --secondary-bg: #0a0a0a;
+    --card-bg: #111111;
+    --accent-color: #00ff9f;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --success-color: #00ff00;
+    --warning-color: #ffaa00;
+    --error-color: #ff3333;
+    --border-color: #222222;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -114,6 +130,7 @@ body {
     font-weight: 600;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
+	text-align: center;
 }
 
 .services-grid {
@@ -319,330 +336,97 @@ body {
     border-left: 3px solid var(--warning-color);
 }
 
-/* Network Visualization */
-.network-section {
+/* Technical Architecture Section */
+.technical-section {
     margin: 2rem 0;
 }
 
-.network-diagram {
+.architecture-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     padding: 2rem;
-    position: relative;
+    margin: 0 auto 2rem auto;
+    max-width: 800px;
+    transition: all 0.3s ease;
 }
 
-.architecture-overview {
-    text-align: center;
-    margin-bottom: 2rem;
+.architecture-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-.architecture-overview h3 {
+.architecture-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.architecture-header h3 {
     font-size: 1.3rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--accent-color);
-}
-
-.architecture-overview p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-}
-
-/* Network Flow Structure */
-.network-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.flow-row {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.flow-section {
-    background: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 800px;
-    position: relative;
-}
-
-.flow-section.primary {
-    border-color: var(--accent-color);
-    background: linear-gradient(135deg, var(--secondary-bg) 0%, rgba(0, 212, 170, 0.05) 100%);
-}
-
-.flow-section.secondary {
-    border-color: var(--warning-color);
-    background: linear-gradient(135deg, var(--secondary-bg) 0%, rgba(245, 158, 11, 0.05) 100%);
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.section-header h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
     color: var(--text-primary);
 }
 
-.section-badge {
-    background: var(--warning-color);
-    color: var(--primary-bg);
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.container-group {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.container-group.split {
-    justify-content: space-around;
-}
-
-.network-container {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 0.75rem;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 180px;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.network-container:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-color);
-}
-
-.network-container.client { border-color: #6b7280; }
-.network-container.nginx { border-color: var(--success-color); }
-.network-container.wordpress { border-color: #3b82f6; }
-.network-container.mariadb { border-color: var(--warning-color); }
-.network-container.redis { border-color: var(--error-color); }
-.network-container.adminer { border-color: #8b5cf6; }
-.network-container.redis-commander { border-color: #06b6d4; }
-
-.container-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.container-info {
-    text-align: center;
-    width: 100%;
-}
-
-.container-name {
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-    color: var(--text-primary);
-}
-
-.container-desc {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    line-height: 1.3;
-    margin-bottom: 0.5rem;
-}
-
-.container-ports {
-    font-size: 0.75rem;
-    color: var(--accent-color);
-    font-family: 'Courier New', monospace;
-    font-weight: 500;
-}
-
-.container-status {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--success-color);
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-}
-
-.container-status::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 2px solid var(--success-color);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-    opacity: 0.6;
-}
-
-/* Flow Arrows */
-.flow-arrow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    height: 60px;
-}
-
-.flow-arrows-split {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    height: 80px;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.arrow-line {
-    width: 3px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--accent-color), transparent);
-    border-radius: 2px;
-}
-
-.arrow-line-diagonal {
-    width: 3px;
-    height: 60px;
-    background: linear-gradient(45deg, var(--accent-color), transparent);
-    border-radius: 2px;
-    transform: rotate(25deg);
-}
-
-.flow-arrow.left .arrow-line-diagonal {
-    transform: rotate(-25deg);
-}
-
-.arrow-head {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-top: -5px;
-    animation: bounce 2s infinite;
-}
-
-.arrow-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-align: center;
-    margin-top: 0.25rem;
-    font-weight: 500;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-5px); }
-    60% { transform: translateY(-3px); }
-}
-
-/* Network Information Panel */
-.network-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.info-panel {
-    background: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
-    padding: 1.25rem;
-}
-
-.info-panel h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--accent-color);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.network-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.network-stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.network-stat:last-child {
-    border-bottom: none;
-}
-
-.stat-label {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-.stat-value {
-    color: var(--text-primary);
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.flow-description {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.flow-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-}
-
-.step-number {
+.architecture-badge {
     background: var(--accent-color);
     color: var(--primary-bg);
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0.4rem 1rem;
+    border-radius: 0.5rem;
     font-size: 0.8rem;
     font-weight: 600;
-    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.step-text {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-top: 0.15rem;
+/* ASCII Art Styling */
+.ascii-diagram {
+    background: var(--primary-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    position: relative;
 }
+
+.ascii-art {
+    font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    color: var(--accent-color);
+    margin: 0;
+    white-space: pre;
+    text-align: left;
+    font-weight: 500;
+}
+
+.architecture-description {
+    margin-top: 1rem;
+}
+
+.architecture-description p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Volume Mapping */
+.volume-mapping {
+    margin-top: 1.5rem;
+}
+
+.volume-mapping h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+
 
 /* Project Section Styling */
 .project-section {
@@ -793,6 +577,94 @@ body {
     font-weight: 500;
 }
 
+/* Refresh Button */
+.refresh-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+}
+
+.refresh-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.refresh-button:active {
+    transform: translateY(0);
+}
+
+.refresh-icon {
+    font-size: 1rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    margin-left: 0.5rem;
+}
+
+.theme-toggle:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 255, 159, 0.25);
+}
+
+.theme-toggle:active {
+    transform: rotate(180deg) scale(1);
+}
+
+.theme-icon {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+/* Dark theme specific overrides */
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+}
+
+[data-theme="dark"] .ascii-art {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(0, 255, 159, 0.3);
+}
+
+[data-theme="dark"] .service-status.running {
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+[data-theme="dark"] .theme-toggle .theme-icon {
+    content: "☀️";
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .dashboard-container {
@@ -873,6 +745,45 @@ body {
         gap: 1rem;
     }
     
+    /* Technical Architecture Mobile */
+    .architecture-card {
+        padding: 1.5rem;
+        max-width: none;
+        margin: 0 0 2rem 0;
+    }
+    
+    .network-diagram {
+        max-width: none;
+        margin: 0;
+    }
+    
+    .architecture-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
+    .ascii-diagram {
+        padding: 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .ascii-art {
+        font-size: 0.7rem;
+        line-height: 1.1;
+    }
+    
+    .workflow-step {
+        min-width: auto;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .step-content {
+        text-align: left;
+    }
+    
     /* Project Section Mobile */
     .project-content {
         grid-template-columns: 1fr;
@@ -942,6 +853,17 @@ body {
     
     .info-panel {
         padding: 1rem;
+    }
+    
+    /* Technical Architecture Small Mobile */
+    .ascii-art {
+        font-size: 0.6rem;
+        line-height: 1.0;
+    }
+    
+    .ascii-diagram {
+        padding: 0.75rem;
+        overflow-x: scroll;
     }
 }
 
