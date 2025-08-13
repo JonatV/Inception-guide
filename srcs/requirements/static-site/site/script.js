@@ -91,14 +91,19 @@ class InceptionDashboard {
 
     toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const newTheme = currentTheme === 'light' ? null : 'light';
         
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('dashboard-theme', newTheme);
+        if (newTheme) {
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('dashboard-theme', newTheme);
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.removeItem('dashboard-theme');
+        }
         
         this.updateThemeIcon(newTheme);
         this.showNotification(
-            newTheme === 'dark' ? '🌙 Ultra Dark theme activated!' : '🌞 Default theme activated!', 
+            newTheme === 'light' ? '☀️ Light retro theme activated!' : '🌙 Dark theme activated!',
             'success'
         );
     }
@@ -106,7 +111,7 @@ class InceptionDashboard {
     updateThemeIcon(theme) {
         const themeIcon = document.querySelector('.theme-icon');
         if (themeIcon) {
-            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
         }
     }
 
