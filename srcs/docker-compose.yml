@@ -1,7 +1,5 @@
-version: "3"  # 📌 Version de la syntaxe docker-compose utilisée
-
 services:
-  # 🔹 Service MariaDB
+  # Service MariaDB
   mariadb:
     build:                      # 🔨 Indique comment construire l'image
       context: ./requirements/mariadb  # 📁 Chemin vers le dossier contenant le Dockerfile
@@ -14,7 +12,7 @@ services:
       - inception
     restart: unless-stopped     # 🔁 Redémarre sauf si on l'arrête manuellement
 
-  # 🔹 Service WordPress (avec PHP-FPM)
+  # Service WordPress (+ PHP-FPM)
   wordpress:
     build:
       context: ./requirements/wordpress
@@ -29,7 +27,7 @@ services:
       - mariadb               # ⏳ Lance WordPress uniquement si MariaDB est prêt
     restart: unless-stopped
 
-  # 🔹 Service NGINX
+  # Service NGINX
   nginx:
     build:
       context: ./requirements/nginx
@@ -87,6 +85,19 @@ services:
     depends_on:
       - redis
 
+  # Service STATIC SITE (Bonus - Portfolio/Resume Site)
+  static-site:
+    build:
+      context: ./requirements/static-site
+      dockerfile: Dockerfile
+    container_name: static-site
+    restart: unless-stopped
+    ports:
+      - "8083:8083"         # 🌍 Port Static Site exposé localement
+    networks:
+      - inception
+
+# Définition des volumes persistants
 volumes:
   mariadb_data:
     driver: local             # 🛠️ Stocke les données localement
@@ -102,7 +113,7 @@ volumes:
       o: bind
       device: ${WP_DATA_PATH}      # 📍 Dossier de persistance WordPress
 
-# 🔸 Réseau personnalisé pour que les containers puissent communiquer
+# Réseau personnalisé pour que les containers puissent communiquer
 networks:
   inception:
     driver: bridge            # 🧭 Réseau bridge : tous les conteneurs partagent un réseau isolé
