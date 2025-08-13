@@ -72,6 +72,21 @@ services:
     networks:
       - inception
     restart: unless-stopped
+
+  # Service REDIS COMMANDER (Redis GUI)
+  redis-commander:
+    build:
+      context: ./requirements/redis-commander
+      dockerfile: Dockerfile
+    container_name: redis-commander
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    networks:
+      - inception
+    depends_on:
+      - redis
+
 volumes:
   mariadb_data:
     driver: local             # 🛠️ Stocke les données localement
