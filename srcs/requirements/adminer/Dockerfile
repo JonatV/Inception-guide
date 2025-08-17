@@ -1,3 +1,6 @@
+# note:
+	# the second curl is used to download a better theme for Adminer.
+	# to connect : mariadb, jveirman, 123, wordpress
 FROM debian:bullseye
 RUN apt-get update && \
 	apt-get install -y \
