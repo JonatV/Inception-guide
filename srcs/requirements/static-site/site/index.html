@@ -1,214 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inception Project Dashboard - jveirman</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Inception Project Dashboard - jveirman</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-content">
-                <div class="project-info">
-                    <h1 class="project-title">
-                        <span class="docker-icon">🐳</span>
-                        Inception Project Dashboard
-                    </h1>
-                    <p class="project-subtitle">42 School - jveirman</p>
-                </div>
-                <div class="status-indicator">
-                    <div class="status-dot active"></div>
-                    <span class="status-text">0/6 Services Running</span>
-                    <button id="refresh-btn" class="service-btn primary" title="Refresh service status">
-                        <span class="refresh-icon">🔄</span>
-                        <span class="refresh-text">Refresh</span>
-                    </button>
-                    <button id="theme-toggle" class="theme-toggle" title="Toggle dark theme">
-                        <span class="theme-icon">🌙</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+	<div class="dashboard-container">
+		<button id="theme-toggle" class="theme-toggle theme-toggle-topleft" title="Toggle dark theme">
+			<span class="theme-icon">🌙</span>
+		</button>
+		
+		<header class="dashboard-header">
+			<div class="header-content">
+				<div class="project-info">
+					<h1 class="project-title">
+						<span class="docker-icon">🐳</span>
+						Inception Project Dashboard
+					</h1>
+					<p class="project-subtitle">42 Bruxelles - jveirman</p>
+				</div>
+			</div>
+		</header>
 
-        <!-- Main Content -->
-        <main class="dashboard-main">
-            <!-- Quick Stats -->
-            <section class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">📊</div>
-                        <div class="stat-content">
-                            <div class="stat-number">6</div>
-                            <div class="stat-label">Services</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⚡</div>
-                        <div class="stat-content">
-                            <div class="stat-number">99.9%</div>
-                            <div class="stat-label">Uptime</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">💾</div>
-                        <div class="stat-content">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Volumes</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🔒</div>
-                        <div class="stat-content">
-                            <div class="stat-number">SSL</div>
-                            <div class="stat-label">Secured</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+		<main class="dashboard-main">
+			<section class="stats-section">
+				<div class="stats-grid">
+					<div class="stat-card">
+						<div class="stat-icon">📊</div>
+						<div class="stat-content">
+							<div class="stat-number">6</div>
+							<div class="stat-label">Services</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">⚡</div>
+						<div class="stat-content">
+							<div class="stat-number">99.9%</div>
+							<div class="stat-label">Uptime</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">💾</div>
+						<div class="stat-content">
+							<div class="stat-number">3</div>
+							<div class="stat-label">Volumes</div>
+						</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-icon">🔒</div>
+						<div class="stat-content">
+							<div class="stat-number">SSL</div>
+							<div class="stat-label">Secured</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
-            <!-- Services Grid -->
-            <section class="services-section">
-                <h2 class="section-title">Docker Services</h2>
-                <div class="services-grid">
-                    <!-- Core Services -->
-                    <div class="service-card core-service">
-                        <div class="service-header">
-                            <div class="service-icon nginx">🌐</div>
-                            <div id="nginx-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">NGINX</h3>
-                            <p class="service-description">Web Server with SSL/TLS</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 443</span>
-                                <span class="service-type">Core Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <a href="https://jveirman.42.fr" target="_blank" class="service-btn primary">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+			<section class="services-section">
+				<div class="services-header">
+					<h2 class="section-title">Docker Services</h2>
+					<div class="status-indicator">
+						<span class="status-text">0/6 Services Running</span>
+						<button id="refresh-btn" class="service-btn primary" title="Refresh service status">
+							<span class="refresh-icon">🔄</span>
+							<span class="refresh-text">Refresh</span>
+						</button>
+					</div>
+				</div>
+				<div class="services-grid">
+					<div class="service-card core-service">
+						<div class="service-header">
+							<div class="service-icon nginx">🌐</div>
+							<div id="nginx-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">NGINX</h3>
+							<p class="service-description">Web Server with SSL/TLS</p>
+							<div class="service-details">
+								<span class="service-port">Port: 443</span>
+								<span class="service-type">Core Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<a href="https://jveirman.42.fr" target="_blank" class="service-btn primary">
+								Visit Website
+							</a>
+						</div>
+					</div>
 
-                    <div class="service-card core-service">
-                        <div class="service-header">
-                            <div class="service-icon wordpress">📝</div>
-                            <div id="wordpress-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">WordPress</h3>
-                            <p class="service-description">Content Management System</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 9000</span>
-                                <span class="service-type">Core Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <a href="https://jveirman.42.fr/wp-admin" target="_blank" class="service-btn primary">
-                                Admin Panel
-                            </a>
-                        </div>
-                    </div>
+					<div class="service-card core-service">
+						<div class="service-header">
+							<div class="service-icon wordpress">📝</div>
+							<div id="wordpress-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">WordPress</h3>
+							<p class="service-description">Content Management System</p>
+							<div class="service-details">
+								<span class="service-port">Port: 9000</span>
+								<span class="service-type">Core Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<a href="https://jveirman.42.fr/wp-admin" target="_blank" class="service-btn primary">
+								Admin Panel
+							</a>
+						</div>
+					</div>
 
-                    <div class="service-card core-service">
-                        <div class="service-header">
-                            <div class="service-icon mariadb">🗄️</div>
-                            <div id="mariadb-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">MariaDB</h3>
-                            <p class="service-description">MySQL Database Server</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 3306</span>
-                                <span class="service-type">Core Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <button class="service-btn disabled">Internal Only</button>
-                        </div>
-                    </div>
+					<div class="service-card core-service">
+						<div class="service-header">
+							<div class="service-icon mariadb">🗄️</div>
+							<div id="mariadb-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">MariaDB</h3>
+							<p class="service-description">MySQL Database Server</p>
+							<div class="service-details">
+								<span class="service-port">Port: 3306</span>
+								<span class="service-type">Core Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<button class="service-btn disabled">Internal Only</button>
+						</div>
+					</div>
 
-                    <!-- Bonus Services -->
-                    <div class="service-card bonus-service">
-                        <div class="service-header">
-                            <div class="service-icon adminer">🔍</div>
-                            <div id="adminer-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">Adminer</h3>
-                            <p class="service-description">Database Management Tool</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 8080</span>
-                                <span class="service-type">Bonus Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <a href="http://jveirman.42.fr:8080" target="_blank" class="service-btn secondary">
-                                Open Adminer
-                            </a>
-                        </div>
-                    </div>
+					<div class="service-card bonus-service">
+						<div class="service-header">
+							<div class="service-icon adminer">🔍</div>
+							<div id="adminer-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">Adminer</h3>
+							<p class="service-description">Database Management Tool</p>
+							<div class="service-details">
+								<span class="service-port">Port: 8080</span>
+								<span class="service-type">Bonus Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<a href="http://jveirman.42.fr:8080" target="_blank" class="service-btn secondary">
+								Open Adminer
+							</a>
+						</div>
+					</div>
 
-                    <div class="service-card bonus-service">
-                        <div class="service-header">
-                            <div class="service-icon redis">⚡</div>
-                            <div id="redis-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">Redis</h3>
-                            <p class="service-description">Caching & Session Storage</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 6379</span>
-                                <span class="service-type">Bonus Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <button class="service-btn disabled">Internal Only</button>
-                        </div>
-                    </div>
+					<div class="service-card bonus-service">
+						<div class="service-header">
+							<div class="service-icon redis">⚡</div>
+							<div id="redis-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">Redis</h3>
+							<p class="service-description">Caching & Session Storage</p>
+							<div class="service-details">
+								<span class="service-port">Port: 6379</span>
+								<span class="service-type">Bonus Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<button class="service-btn disabled">Internal Only</button>
+						</div>
+					</div>
 
-                    <div class="service-card bonus-service">
-                        <div class="service-header">
-                            <div class="service-icon redis-commander">📊</div>
-                            <div id="redis-commander-status" class="service-status stopped"></div>
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">Redis Commander</h3>
-                            <p class="service-description">Redis Monitoring Interface</p>
-                            <div class="service-details">
-                                <span class="service-port">Port: 8082</span>
-                                <span class="service-type">Bonus Service</span>
-                            </div>
-                        </div>
-                        <div class="service-actions">
-                            <a href="http://jveirman.42.fr:8082" target="_blank" class="service-btn secondary">
-                                Open Monitor
-                            </a>
-                        </div>
-                    </div>
+					<div class="service-card bonus-service">
+						<div class="service-header">
+							<div class="service-icon redis-commander">📊</div>
+							<div id="redis-commander-status" class="service-status stopped"></div>
+						</div>
+						<div class="service-info">
+							<h3 class="service-name">Redis Commander</h3>
+							<p class="service-description">Redis Monitoring Interface</p>
+							<div class="service-details">
+								<span class="service-port">Port: 8082</span>
+								<span class="service-type">Bonus Service</span>
+							</div>
+						</div>
+						<div class="service-actions">
+							<a href="http://jveirman.42.fr:8082" target="_blank" class="service-btn secondary">
+								Open Monitor
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
 
-                    </div>
-                </div>
-            </section>
-
-            <!-- Technical Architecture -->
-            <section class="technical-section">
-                <h2 class="section-title">Technical Architecture Documentation</h2>
-                
-                <!-- Network Architecture -->
-                <div class="architecture-card">
-                    <div class="architecture-header">
-                        <h3>🌐 Network Architecture</h3>
-                        <div class="architecture-badge">Docker Network</div>
-                    </div>
-                    <div class="ascii-diagram">
-                        <pre class="ascii-art">
+			<section class="technical-section">
+				<h2 class="section-title">Technical Architecture Documentation</h2>
+				<div class="architecture-card">
+					<div class="architecture-header">
+						<h3>🌐 Network Architecture (no bonus)</h3>
+						<div class="architecture-badge">Docker Network</div>
+					</div>
+					<div class="ascii-diagram">
+						<pre class="ascii-art">
 ┌─────────────────────────────────────────────────────────┐
 │                Docker Network: inception                │
 │                     (bridge driver)                     │
@@ -226,20 +217,18 @@
     │  Host OS    │
     │ localhost   │
     └─────────────┘</pre>
-                    </div>
-                    <div class="architecture-description">
-                        <p>Internal Docker network configuration showing container communication patterns and host port exposure.</p>
-                    </div>
-                </div>
-
-                <!-- Volume Architecture -->
-                <div class="architecture-card">
-                    <div class="architecture-header">
-                        <h3>💾 Volume Architecture</h3>
-                        <div class="architecture-badge">Data Persistence</div>
-                    </div>
-                    <div class="ascii-diagram">
-                        <pre class="ascii-art">
+					</div>
+					<div class="architecture-description">
+						<p>Internal Docker network configuration showing container communication patterns and host port exposure.</p>
+					</div>
+				</div>
+				<div class="architecture-card">
+					<div class="architecture-header">
+						<h3>💾 Volume Architecture</h3>
+						<div class="architecture-badge">Data Persistence</div>
+					</div>
+					<div class="ascii-diagram">
+						<pre class="ascii-art">
       ┌───────────────────────── Machine hôte ─────────────────────────┐
       │                                                                │
       │  /home/&lt;login&gt;/data/                                           │
@@ -258,20 +247,22 @@
       │ [nginx]       /var/www/html     ←  sert les mêmes fichiers WP  │
       │                                                                │
       └────────────────────────────────────────────────────────────────┘</pre>
-                    </div>
-                    <div class="volume-mapping">
-                        <h4>📋 Volume Bindings</h4>
-                        <div class="ascii-diagram">
-                            <pre class="ascii-art">
+					</div>
+					<div class="volume-mapping">
+						<h4>📋 Volume Bindings</h4>
+						<div class="ascii-diagram">
+							<pre class="ascii-art">
       ┌────── hôte ───────┐    ┌── Conteneurs ──┐      
       │.../data/mysql       ←→   /var/lib/mysql │
       │                   │    │                │
       │.../data/wordpress   ←→   /var/www/html  │
       └───────────────────┘    └────────────────┘</pre>
-                        </div>
-                    </div>
-                </div>
+						</div>
+					</div>
+				</div>
 			</section>
-    <script src="script.js"></script>
+		</main>
+	</div>
 </body>
+	<script src="script.js"></script>
 </html>
