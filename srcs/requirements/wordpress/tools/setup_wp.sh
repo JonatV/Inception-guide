@@ -75,6 +75,7 @@ chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 
 echo -e "\e[34m--> Setting up Redis for WordPress...\e[0m"
+
 # for the Redis bonus
 wp plugin install redis-cache --activate --allow-root --path="/var/www/html/"
 wp config set WP_REDIS_HOST "redis" --allow-root --path="/var/www/html/"

@@ -1,3 +1,5 @@
+# note: setting up a ssl cert for nginx
+
 FROM debian:bullseye
 
 RUN apt-get update && \

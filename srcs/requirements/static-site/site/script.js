@@ -79,27 +79,27 @@ class InceptionDashboard {
 	}
 
 	toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? null : 'light';
-        
-        if (newTheme) {
-            document.documentElement.setAttribute('data-theme', newTheme);
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-        }
-        this.updateThemeIcon(newTheme);
-        this.showNotification(
-            newTheme === 'light' ? '☀️ Light retro theme activated!' : '🌙 Dark theme activated!',
-            'success'
-        );
-    }
+		const currentTheme = document.documentElement.getAttribute('data-theme');
+		const newTheme = currentTheme === 'light' ? null : 'light';
+		
+		if (newTheme) {
+			document.documentElement.setAttribute('data-theme', newTheme);
+		} else {
+			document.documentElement.removeAttribute('data-theme');
+		}
+		this.updateThemeIcon(newTheme);
+		this.showNotification(
+			newTheme === 'light' ? '☀️ Light retro theme activated!' : '🌙 Dark theme activated!',
+			'success'
+		);
+	}
 
-    updateThemeIcon(theme) {
-        const themeIcon = document.querySelector('.theme-icon');
-        if (themeIcon) {
-            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-        }
-    }
+	updateThemeIcon(theme) {
+		const themeIcon = document.querySelector('.theme-icon');
+		if (themeIcon) {
+			themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+		}
+	}
 
 	updateServicesDisplay() {
 		let countRunning = 0;
@@ -149,31 +149,31 @@ class InceptionDashboard {
 		this.updateServicesDisplay();
 	}
 
-    setupInteractiveFeatures() {
-        const refreshBtn = document.getElementById('refresh-btn');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', async () => {
-                refreshBtn.classList.add('loading');
-                refreshBtn.disabled = true;
-                
-                this.showNotification('Refreshing service status...', 'info');
-                await this.updateServiceStatus();
-                refreshBtn.classList.remove('loading');
-                refreshBtn.disabled = false;
-                this.showNotification('Service status updated!', 'success');
-            });
-        }
+	setupInteractiveFeatures() {
+		const refreshBtn = document.getElementById('refresh-btn');
+		if (refreshBtn) {
+			refreshBtn.addEventListener('click', async () => {
+				refreshBtn.classList.add('loading');
+				refreshBtn.disabled = true;
+				
+				this.showNotification('Refreshing service status...', 'info');
+				await this.updateServiceStatus();
+				refreshBtn.classList.remove('loading');
+				refreshBtn.disabled = false;
+				this.showNotification('Service status updated!', 'success');
+			});
+		}
 
-        const serviceCards = document.querySelectorAll('.service-card');
-        serviceCards.forEach(card => {
-            const button = card.querySelector('.service-btn:not(.disabled)');
-            if (button && button.href) {
-                card.addEventListener('mouseenter', () => {
-                    card.style.cursor = 'pointer';
-                });
-            }
-        });
-    }
+		const serviceCards = document.querySelectorAll('.service-card');
+		serviceCards.forEach(card => {
+			const button = card.querySelector('.service-btn:not(.disabled)');
+			if (button && button.href) {
+				card.addEventListener('mouseenter', () => {
+					card.style.cursor = 'pointer';
+				});
+			}
+		});
+	}
 	displayWelcomeMessage() {
 		console.log(`\n%c
 	██╗███╗   ██╗ ██████╗███████╗██████╗ ████████╗██╗ ██████╗ ███╗   ██╗
@@ -198,88 +198,88 @@ class InceptionDashboard {
 		);
 	}
 
-    showNotification(message, type = 'info') {
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notification => notification.remove());
-        
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-icon">${this.getNotificationIcon(type)}</span>
-                <span class="notification-message">${message}</span>
-            </div>
-        `;
-        Object.assign(notification.style, {
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            padding: '1rem 1.5rem',
-            borderRadius: '0.75rem',
-            color: 'white',
-            fontSize: '0.9rem',
-            fontWeight: '500',
-            zIndex: '10000',
-            transform: 'translateX(100%)',
-            transition: 'transform 0.3s ease',
-            maxWidth: '350px',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(10px)'
-        });
-        switch(type) {
-            case 'success':
-                notification.style.background = 'rgba(16, 185, 129, 0.9)';
-                break;
-            case 'error':
-                notification.style.background = 'rgba(239, 68, 68, 0.9)';
-                break;
-            case 'warning':
-                notification.style.background = 'rgba(245, 158, 11, 0.9)';
-                break;
-            default:
-                notification.style.background = 'rgba(37, 99, 235, 0.9)';
-        }
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
+	showNotification(message, type = 'info') {
+		const existingNotifications = document.querySelectorAll('.notification');
+		existingNotifications.forEach(notification => notification.remove());
+		
+		const notification = document.createElement('div');
+		notification.className = `notification notification-${type}`;
+		notification.innerHTML = `
+			<div class="notification-content">
+				<span class="notification-icon">${this.getNotificationIcon(type)}</span>
+				<span class="notification-message">${message}</span>
+			</div>
+		`;
+		Object.assign(notification.style, {
+			position: 'fixed',
+			top: '20px',
+			right: '20px',
+			padding: '1rem 1.5rem',
+			borderRadius: '0.75rem',
+			color: 'white',
+			fontSize: '0.9rem',
+			fontWeight: '500',
+			zIndex: '10000',
+			transform: 'translateX(100%)',
+			transition: 'transform 0.3s ease',
+			maxWidth: '350px',
+			boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+			backdropFilter: 'blur(10px)'
+		});
+		switch(type) {
+			case 'success':
+				notification.style.background = 'rgba(16, 185, 129, 0.9)';
+				break;
+			case 'error':
+				notification.style.background = 'rgba(239, 68, 68, 0.9)';
+				break;
+			case 'warning':
+				notification.style.background = 'rgba(245, 158, 11, 0.9)';
+				break;
+			default:
+				notification.style.background = 'rgba(37, 99, 235, 0.9)';
+		}
+		
+		document.body.appendChild(notification);
+		
+		setTimeout(() => {
+			notification.style.transform = 'translateX(0)';
+		}, 100);
 
 		setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => notification.remove(), 300);
-        }, 4000);
-    }
+			notification.style.transform = 'translateX(100%)';
+			setTimeout(() => notification.remove(), 300);
+		}, 4000);
+	}
 
-    getNotificationIcon(type) {
-        switch(type) {
-            case 'success': return '✅';
-            case 'error': return '❌';
-            case 'warning': return '⚠️';
-            default: return 'ℹ️';
-        }
-    }
+	getNotificationIcon(type) {
+		switch(type) {
+			case 'success': return '✅';
+			case 'error': return '❌';
+			case 'warning': return '⚠️';
+			default: return 'ℹ️';
+		}
+	}
 }
 
 class KeyboardShortcuts {
-    constructor(dashboard) {
-        this.dashboard = dashboard;
-        this.setupShortcuts();
-    }
+	constructor(dashboard) {
+		this.dashboard = dashboard;
+		this.setupShortcuts();
+	}
 
-    setupShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            if (e.altKey && e.key === 'r') {
-                e.preventDefault();
-                this.dashboard.updateServiceStatus();
-                this.dashboard.showNotification('Status refreshed!', 'success');
-            }
-        });
-    }
+	setupShortcuts() {
+		document.addEventListener('keydown', (e) => {
+			if (e.altKey && e.key === 'r') {
+				e.preventDefault();
+				this.dashboard.updateServiceStatus();
+				this.dashboard.showNotification('Status refreshed!', 'success');
+			}
+		});
+	}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const dashboard = new InceptionDashboard();
-    new KeyboardShortcuts(dashboard);
+	const dashboard = new InceptionDashboard();
+	new KeyboardShortcuts(dashboard);
 });
